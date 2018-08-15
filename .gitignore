@@ -1,0 +1,7 @@
+*node_modules
+*idea
+*idel
+*.DS_Store
+.DS_Store
+package-lock.json
+.vscode
