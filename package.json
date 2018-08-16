@@ -1,9 +1,9 @@
 {
-  "name": "pc-cli",
+  "name": "finance-pc-cli",
   "version": "1.0.0",
   "description": "pc cli create the pc backsystem",
   "bin": {
-    "pc-cli": "./bin/pc-cli.js"
+    "finance-pc-cli": "./bin/finance-pc-cli.js"
   },
   "repository": {
     "type": "git",
@@ -27,10 +27,10 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "node ./bin/pc-cli.js"
+    "test": "node ./bin/finance-pc-cli.js"
   },
   "keywords": [
-    "pc-cli"
+    "finance-pc-cli"
   ],
   "author": "crown",
   "license": "ISC"

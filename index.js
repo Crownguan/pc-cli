@@ -1,1 +1,1 @@
-require('./bin/pc-cli')
+require('./bin/finance-pc-cli')
