@@ -1,76 +1,80 @@
-const fs = require(fs)
+const fs = require('fs')
 const path = require('path')
 
 /**
- * copy the src content to the target content
+ * copy the src content to the target content 
  * @param {*} srcDir src category
  * @param {*} tarDir tag category
  * @param {*} cb the call back function
  */
+var copyFolder = function (srcDir, tarDir, cb) {
 
-const copyFolder = (srcDir, tarDir, cb) => {
-  // read src category
-  fs.readdir(srcDir, (err, file) => {
-    let count = 0
-    let checkEnd
+    /* read src category */
+    fs.readdir(srcDir, function (err, files) {
 
-    checkEnd = () => {
-      ++count == files.length && cb && cb({
-        message: 'the project is created successfully!',
-        state: true
-      })
-    }
+        var count = 0
+        var checkEnd = function () {
+            ++count == files.length && cb && cb({
+                message: `the project is created successfully!`,
+                state: true
+            })
+        }
 
-    if (err) {
-      checkEnd({
-        message: `copy error: + ${err}`,
-        state: false
-      })
-      return
-    }
-
-    // check every file
-    files.forEach((file) => {
-      const srcPath = path.join(srcDir, file)
-      const tarPath = path.join(tarDir, file)
-
-      fs.stat(srcPath, (err, stats) => {
-        if (stats.isDirectory) {
-          fs.mkdir(tarPath, (err) => {
-            if (err) {
-              cb && cb({
+        /* error break */
+        if (err) {
+            checkEnd({
                 message: `copy error: + ${err}`,
                 state: false
-              })
-              return
-            }
-
-            copyFolder(srcPath, tarPath, checkEnd)
-          })
-        } else {
-          try {
-            fs.copyFolder(srcPath, tarPath, checkEnd)
-          } catch (e) {
-            fs.createReadStream(srcPath).pipe(fs.createWriteStream(tarPath), checkEnd)
-          }
+            })
+            return
         }
-      })
-    })
 
-    files.length === 0 && cb && cb({
-      message: 'the document is empty!',
-      state: true,
-      warning: true
+        /* every file check*/
+        files.forEach(function (file) {
+            var srcPath = path.join(srcDir, file)
+            var tarPath = path.join(tarDir, file)
+
+            fs.stat(srcPath, function (err, stats) {
+                if (stats.isDirectory()) {
+
+                    fs.mkdir(tarPath, function (err) {
+                        if (err) {
+                            cb && cb({
+                                message: `copy error: + ${err}`,
+                                state: false
+                            })
+                            return
+                        }
+                        copyFolder(srcPath, tarPath, checkEnd)
+                    })
+                } else {
+                    try {
+                        fs.copyFile(srcPath, tarPath, checkEnd)
+                    }
+                    catch (e) {
+                        /* low version 8.5.0 bellow */
+                        fs.createReadStream(srcPath).pipe(fs.createWriteStream(tarPath), checkEnd)
+                    }
+                }
+            })
+        })
+
+        //return when empty
+        files.length === 0 && cb && cb({
+            message: `the document is empty!`,
+            state: true,
+            warning: true
+        })
     })
-  })
 }
 
-module.exprots = (srcDir, tarDir, cb) => {
-  // check target exist
-  if (fs.existsSync(tarDir) == false) {
-    fs.mkdirSync(tarDir, 0755)
-  }
+module.exports = function (srcDir, tarDir, cb) {
 
-  // coyp here
-  copyFolder(srcDir, tarDir, cb)
+    /* check the target cate exist */
+    if (fs.existsSync(tarDir) == false) {
+        fs.mkdirSync(tarDir, 0755)
+    }
+
+    /* copy here */
+    copyFolder(srcDir, tarDir, cb)
 }

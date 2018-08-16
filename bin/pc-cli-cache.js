@@ -1,4 +1,4 @@
-const spinner = reqiore('ora')('pc-cli cache clean...')
+const spinner = require('ora')('pc-cli cache clean...')
 const npmPrefix = require('npm-prefix')
 const util = require('./lib/util')
 const program = require('commander')

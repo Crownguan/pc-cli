@@ -1,4 +1,6 @@
- //usr/bin/env node
+#!/usr/bin/env node --harmony
+'use strict'
+process.env.NODE_PATH = __dirname + '/../node_modules/'
 
 const program = require('commander')
 
