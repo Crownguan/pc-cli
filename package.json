@@ -10,7 +10,7 @@
     "url": "git+git@github.com:Crownguan/pc-cli.git"
   },
   "download": {
-    "url": "gitlab:gitlab.tuhu.cn:finance/H5/SecondCarBackSystem.git"
+    "url": "gitlab:gitlab.tuhu.cn:finance/H5/finance-pc-model.git"
   },
   "dependencies": {
     "child_process": "^1.0.2",
